@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.StockChat.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.StockChat.Application", "Jobsity.StockChat.Application\Jobsity.StockChat.Application.csproj", "{F0B79C8F-3334-47DD-A7BC-B8C775A98430}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CBC143B2-BA5E-4C1F-821E-3ADB6C41448B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{027E9CD2-2624-44DF-82AE-F8EA5B868C97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02406200-E732-4BA6-97AB-CB8E11169128} = {027E9CD2-2624-44DF-82AE-F8EA5B868C97}
+		{B0D535A8-4554-4C72-B46C-59F24900D356} = {CBC143B2-BA5E-4C1F-821E-3ADB6C41448B}
+		{F0B79C8F-3334-47DD-A7BC-B8C775A98430} = {027E9CD2-2624-44DF-82AE-F8EA5B868C97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D46F10F-31B2-43C5-807E-2A75B611E819}

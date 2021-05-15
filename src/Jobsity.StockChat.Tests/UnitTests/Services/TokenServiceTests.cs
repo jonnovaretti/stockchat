@@ -6,9 +6,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Xunit;
 
-namespace Jobsity.StockChat.Tests.IntegratedTests.Services
+namespace Jobsity.StockChat.Tests.UnitTests.Services
 {
-    [Trait("Integrated tests", "Services")]
+    [Trait("Unit tests", "Services")]
     public class TokenServiceTests
     {
         private readonly Faker _faker = new Faker();
