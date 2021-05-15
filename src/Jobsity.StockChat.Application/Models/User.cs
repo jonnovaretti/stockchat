@@ -1,4 +1,4 @@
-﻿namespace Jobsity.StockChat.WebApi.Models
+﻿namespace Jobsity.StockChat.Application.Models
 {
     public class User
     {

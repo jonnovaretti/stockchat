@@ -1,11 +1,11 @@
-﻿using Jobsity.StockChat.WebApi.Settings;
+﻿using Jobsity.StockChat.Application.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Jobsity.StockChat.WebApi.Services
+namespace Jobsity.StockChat.Application.Services
 {
     public class TokenService : ITokenService
     {

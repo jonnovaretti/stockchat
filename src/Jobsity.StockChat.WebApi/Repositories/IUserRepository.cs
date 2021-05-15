@@ -1,4 +1,4 @@
-﻿using Jobsity.StockChat.WebApi.Models;
+﻿using Jobsity.StockChat.Application.Models;
 
 namespace Jobsity.StockChat.WebApi.Repositories
 {

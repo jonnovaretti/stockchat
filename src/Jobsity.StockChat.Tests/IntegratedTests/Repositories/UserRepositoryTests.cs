@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Jobsity.StockChat.WebApi.Models;
+using Jobsity.StockChat.Application.Models;
 using Jobsity.StockChat.WebApi.Repositories;
 using Xunit;
 

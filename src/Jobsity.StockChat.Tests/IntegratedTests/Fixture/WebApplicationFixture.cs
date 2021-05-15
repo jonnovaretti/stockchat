@@ -1,4 +1,4 @@
-﻿using Jobsity.StockChat.WebApi.Settings;
+﻿using Jobsity.StockChat.Application.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;

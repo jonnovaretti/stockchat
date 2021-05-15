@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using FluentAssertions;
-using Jobsity.StockChat.WebApi.Services;
-using Jobsity.StockChat.WebApi.Settings;
+using Jobsity.StockChat.Application.Services;
+using Jobsity.StockChat.Application.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Xunit;

@@ -1,4 +1,4 @@
-﻿using Jobsity.StockChat.WebApi.Models;
+﻿using Jobsity.StockChat.Application.Models;
 using System.Collections.Generic;
 using System.Linq;
 

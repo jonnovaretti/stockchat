@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.Tests.IntegratedTests.Fixture;
 using Jobsity.StockChat.WebApi;
-using Jobsity.StockChat.WebApi.Services;
 using Jobsity.StockChat.WebApi.ViewModels;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

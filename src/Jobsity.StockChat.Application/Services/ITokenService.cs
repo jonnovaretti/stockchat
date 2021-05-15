@@ -1,4 +1,4 @@
-﻿namespace Jobsity.StockChat.WebApi.Services
+﻿namespace Jobsity.StockChat.Application.Services
 {
     public interface ITokenService
     {

@@ -1,4 +1,4 @@
-﻿namespace Jobsity.StockChat.WebApi.Settings
+﻿namespace Jobsity.StockChat.Application.Settings
 {
     public interface IAuthSetting
     {
