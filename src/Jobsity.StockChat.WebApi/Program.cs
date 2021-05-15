@@ -5,6 +5,8 @@ namespace Jobsity.StockChat.WebApi
 {
     public class Program
     {
+        private Program() { }
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

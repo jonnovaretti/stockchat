@@ -1,4 +1,5 @@
 using Jobsity.StockChat.WebApi.Extensions;
+using Jobsity.StockChat.WebApi.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace Jobsity.StockChat.WebApi
             services.AddControllers();
             services.AddServices();
             services.AddAuthentication(Configuration);
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,6 +38,8 @@ namespace Jobsity.StockChat.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -43,6 +47,7 @@ namespace Jobsity.StockChat.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<HubService>("/chat");
             });
         }
     }

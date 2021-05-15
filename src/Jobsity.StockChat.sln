@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobsity.StockChat.WebApi", "Jobsity.StockChat.WebApi\Jobsity.StockChat.WebApi.csproj", "{02406200-E732-4BA6-97AB-CB8E11169128}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.StockChat.Tests", "Jobsity.StockChat.Tests\Jobsity.StockChat.Tests.csproj", "{B0D535A8-4554-4C72-B46C-59F24900D356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobsity.StockChat.Tests", "Jobsity.StockChat.Tests\Jobsity.StockChat.Tests.csproj", "{B0D535A8-4554-4C72-B46C-59F24900D356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.StockChat.Application", "Jobsity.StockChat.Application\Jobsity.StockChat.Application.csproj", "{F0B79C8F-3334-47DD-A7BC-B8C775A98430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobsity.StockChat.Application", "Jobsity.StockChat.Application\Jobsity.StockChat.Application.csproj", "{F0B79C8F-3334-47DD-A7BC-B8C775A98430}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CBC143B2-BA5E-4C1F-821E-3ADB6C41448B}"
 EndProject
