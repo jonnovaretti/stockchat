@@ -27,7 +27,7 @@ namespace Jobsity.StockChat.WebApi.Controllers
             if (userFound is null)
                 return NotFound(new Response("Invalid credentials"));
 
-            var token = _tokenService.GenerateToken(userFound);
+            var token = _tokenService.GenerateToken(userFound.Username, userFound.Role);
 
             return Ok(new Response<AuthenticateResponse>(new AuthenticateResponse(userFound.Username, token)));
         }

@@ -1,13 +1,9 @@
 using Jobsity.StockChat.WebApi.Extensions;
-using Jobsity.StockChat.WebApi.Settings;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Jobsity.StockChat.WebApi
 {

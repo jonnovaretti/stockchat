@@ -1,5 +1,4 @@
-﻿using Jobsity.StockChat.WebApi.Models;
-using Jobsity.StockChat.WebApi.Settings;
+﻿using Jobsity.StockChat.WebApi.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,7 +16,7 @@ namespace Jobsity.StockChat.WebApi.Services
             _authSetting = authSetting;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(string name, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_authSetting.Secret);
@@ -26,8 +25,8 @@ namespace Jobsity.StockChat.WebApi.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                    new Claim(ClaimTypes.Name, name),
+                    new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

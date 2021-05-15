@@ -1,9 +1,7 @@
-﻿using Jobsity.StockChat.WebApi.Models;
-
-namespace Jobsity.StockChat.WebApi.Services
+﻿namespace Jobsity.StockChat.WebApi.Services
 {
     public interface ITokenService
     {
-        string GenerateToken(User user);
+        string GenerateToken(string name, string role);
     }
 }
