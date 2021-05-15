@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Jobsity.StockChat.Application.Models;
-using Jobsity.StockChat.WebApi.Repositories;
+using Jobsity.StockChat.Application.Infrastructure.Repositories;
 using Xunit;
 
 namespace Jobsity.StockChat.Tests.IntegratedTests.Repositories

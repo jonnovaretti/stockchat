@@ -1,4 +1,4 @@
-﻿using Jobsity.StockChat.WebApi.Repositories;
+﻿using Jobsity.StockChat.Application.Infrastructure.Repositories;
 using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.WebApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jobsity.StockChat.WebApi.Repositories
+namespace Jobsity.StockChat.Application.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {

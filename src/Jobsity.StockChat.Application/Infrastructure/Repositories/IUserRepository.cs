@@ -1,6 +1,6 @@
 ﻿using Jobsity.StockChat.Application.Models;
 
-namespace Jobsity.StockChat.WebApi.Repositories
+namespace Jobsity.StockChat.Application.Infrastructure.Repositories
 {
     public interface IUserRepository
     {
