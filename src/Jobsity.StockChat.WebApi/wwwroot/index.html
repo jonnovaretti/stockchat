@@ -6,7 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
     <script>
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chat", { accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikpob24iLCJyb2xlIjoidXNlciIsIm5iZiI6MTYyMTA5MTYzMiwiZXhwIjoxNjIxMDk4ODMyLCJpYXQiOjE2MjEwOTE2MzJ9.AzKJyp1VRIJ-RAqf8NvZ3MYl77zdUjxSB7FOOrrt4cI" })
+            .withUrl("/chat", { accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikpob24iLCJyb2xlIjoidXNlciIsIm5iZiI6MTYyMTEyNjc5OCwiZXhwIjoxNjIxMTMzOTk4LCJpYXQiOjE2MjExMjY3OTh9.kkazeHbMwTZAdnHp4CBr9Lz3i6vuWpAwxShUnuwUgBE" })
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
@@ -23,7 +23,7 @@
         connection.onclose(start);
         start();
 
-        connection.on("receiveMessage", (user, message) => {
+        connection.on("receiveMessageFromServer", (user, message) => {
             var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             var encodedMsg = user + " says " + msg;
             var li = document.createElement("li");
@@ -36,7 +36,7 @@
         function sendMessage() {
             try {
                 var message = document.getElementById("message").value;
-                connection.invoke("ReceiveMessage", "sdssd", message);
+                connection.invoke("ReceiveMessageFromClient", message);
             } catch (err) {
                 console.error(err);
             }
