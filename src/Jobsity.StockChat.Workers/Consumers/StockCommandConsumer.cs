@@ -14,9 +14,13 @@ namespace Jobsity.StockChat.Workers.Consumers
             _stockRequestService = stockRequestService;
         }
 
-        public Task Consume(ConsumeContext<CommandMessage> context)
+        public async Task Consume(ConsumeContext<CommandMessage> context)
         {
             var message = context.Message;
+
+            var symbol = message.Command.Substring(message.Command.IndexOf('=') + 1);
+
+            var stockQuote = await _stockRequestService.Request(symbol);
 
             return null;
         }

@@ -2,6 +2,7 @@
 {
     public static class QueueNames
     {
-        public const string RequestStockPrice = "request-stock-price";
+        public const string RequestStockQuote = "request-stock-quote";
+        public const string ReturnStockQuote = "response-stock-quote";
     }
 }

@@ -14,7 +14,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Fixture
 
         public RabbitMqFixture(IBusControl busControl) : base(TimeSpan.FromSeconds(2), CancellationToken.None)
         {
-            busControl.ConnectReceiveEndpoint(QueueNames.RequestStockPrice, x =>
+            busControl.ConnectReceiveEndpoint(QueueNames.RequestStockQuote, x =>
             {
                 x.PrefetchCount = 1;
                 x.Consumer<ConsumerFixture>();

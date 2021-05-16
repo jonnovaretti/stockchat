@@ -19,7 +19,7 @@ namespace Jobsity.StockChat.Application.Services
         {
             foreach (var command in commands)
             {
-                await _publisher.Publish(new CommandMessage(command), QueueNames.RequestStockPrice);
+                await _publisher.Publish(new CommandMessage(command), QueueNames.RequestStockQuote);
             }
         }
     }
