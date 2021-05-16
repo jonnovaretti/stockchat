@@ -1,18 +1,16 @@
 ﻿using Jobsity.StockChat.Application.Models;
 using Jobsity.StockChat.Application.Services;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.Workers.Consumers
 {
-    public class StockCommandConsumer : ConsumerBase, IConsumer<CommandMessage>
+    public class StockCommandConsumer : IConsumer<CommandMessage>
     {
         private readonly IStockRequestService _stockRequestService;
         private readonly IStockQuotePublisher _stockQuotePublisher;
 
-        public StockCommandConsumer(IStockRequestService stockRequestService, IStockQuotePublisher stockQuotePublisher, ILogger<ConsumerBase> logger)
-            : base(logger)
+        public StockCommandConsumer(IStockRequestService stockRequestService, IStockQuotePublisher stockQuotePublisher)
         {
             _stockRequestService = stockRequestService;
             _stockQuotePublisher = stockQuotePublisher;

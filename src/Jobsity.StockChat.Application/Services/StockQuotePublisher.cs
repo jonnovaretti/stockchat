@@ -16,7 +16,7 @@ namespace Jobsity.StockChat.Application.Services
 
         public async Task PublishStockQuote(StockQuote stockQuote)
         {
-            await _publisher.Publish(stockQuote, QueueNames.ReturnStockQuote);
+            await _publisher.Publish(stockQuote, QueueNames.ResponseStockQuote);
         }
     }
 }

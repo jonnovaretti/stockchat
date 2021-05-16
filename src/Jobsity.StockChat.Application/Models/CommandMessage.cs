@@ -2,11 +2,6 @@
 {
     public class CommandMessage
     {
-        public string Command { get; }
-
-        public CommandMessage(string command)
-        {
-            Command = command;
-        }
+        public string Command { get; set; }
     }
 }

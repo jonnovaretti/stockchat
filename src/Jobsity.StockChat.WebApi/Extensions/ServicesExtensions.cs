@@ -1,4 +1,5 @@
 ﻿using Jobsity.StockChat.Application.Constants;
+using Jobsity.StockChat.Application.Infrastructure.MessageBroker;
 using Jobsity.StockChat.Application.Infrastructure.Repositories;
 using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.Application.Settings;
@@ -15,10 +16,26 @@ namespace Jobsity.StockChat.WebApi.Extensions
 {
     public static class ServicesExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddSingleton<IMessageAnalyserService, MessageAnalyserService>();
+            services.AddSingleton<ICommandPublisher, CommandPublisher>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMassTransit(this IServiceCollection services, IConfiguration configuration)
+        {
+            var messageBrokerSetting = new MessageBrokerSetting();
+            configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
+
+            services.AddSingleton<IBusFactory, BusFactory>();
+            services.AddSingleton<IPublisher, Publisher>();
+            services.AddSingleton<IMessageBrokerSetting>(messageBrokerSetting);
+
+            return services;
         }
 
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
@@ -52,7 +69,7 @@ namespace Jobsity.StockChat.WebApi.Extensions
                         var accessToken = context.Request.Query["access_token"];
 
                         var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hub"))
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
                         {
                             context.Token = accessToken;
                         }

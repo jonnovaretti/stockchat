@@ -34,7 +34,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
             var busFactory = new BusFactory(messageBrokerSetting);
             _publisher = new Publisher(busFactory, messageBrokerSetting);
 
-            _rabbitMqFixture = new RabbitMqFixture<StockQuote>(busFactory.Create(), QueueNames.ReturnStockQuote);
+            _rabbitMqFixture = new RabbitMqFixture<StockQuote>(busFactory.Create(), QueueNames.ResponseStockQuote);
 
             stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
             _stockCommandConsumer = new StockCommandConsumer(stockRequestService, new StockQuotePublisher(_publisher), Substitute.For<ILogger<ConsumerBase>>());

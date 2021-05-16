@@ -15,6 +15,8 @@ namespace Jobsity.StockChat.Workers.Extensions
         {
             services.AddSingleton<IStockRequestService, StockRequestService>();
             services.AddSingleton<IStockQuotePublisher, StockQuotePublisher>();
+            services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
+            services.AddSingleton<IPublisher, Publisher>();
             services.AddHttpClient();
 
             return services;
@@ -25,6 +27,10 @@ namespace Jobsity.StockChat.Workers.Extensions
             IStooqSetting stooqSetting = new StooqSetting();
             configuration.GetSection(SettingSections.SqootSetting).Bind(stooqSetting);
 
+            IMessageBrokerSetting messageBrokerSetting = new MessageBrokerSetting();
+            configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
+
+            services.AddSingleton(messageBrokerSetting);
             services.AddSingleton(stooqSetting);
 
             return services;
@@ -32,12 +38,10 @@ namespace Jobsity.StockChat.Workers.Extensions
 
         public static IServiceCollection AddMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
+            var serviceProvider = services.BuildServiceProvider();
+
             var messageBrokerSetting = new MessageBrokerSetting();
             configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
-
-            services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
-            services.AddSingleton<IPublisher, Publisher>();
-            services.AddSingleton<IMessageBrokerSetting>(messageBrokerSetting);
 
             services.AddMassTransit(bus =>
             {
@@ -48,9 +52,15 @@ namespace Jobsity.StockChat.Workers.Extensions
                         acc.Username(messageBrokerSetting.Username);
                         acc.Password(messageBrokerSetting.Password);
                     });
-                });
 
-                bus.AddConsumer<StockCommandConsumer>();
+                    busConfigurator.ReceiveEndpoint(QueueNames.RequestStockQuote, x =>
+                    {
+                        x.Consumer(() =>
+                        {
+                            return new StockCommandConsumer(serviceProvider.GetService<IStockRequestService>(), serviceProvider.GetService<IStockQuotePublisher>());
+                        });
+                    });
+                });
             });
 
             return services;

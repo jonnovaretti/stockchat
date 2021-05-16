@@ -21,6 +21,7 @@ namespace Jobsity.StockChat.WebApi
         {
             services.AddControllers();
             services.AddServices();
+            services.AddMassTransit(Configuration);
             services.AddAuthentication(Configuration);
             services.AddSignalR();
         }

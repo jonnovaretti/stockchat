@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.WebApi.Hubs
@@ -12,10 +11,12 @@ namespace Jobsity.StockChat.WebApi.Hubs
     {
         private const string ClientMethodName = "receiveMessageFromServer";
         private readonly IMessageAnalyserService _messageAnalyserService;
+        private readonly ICommandPublisher _commandPublisher;
 
-        public HubService(IMessageAnalyserService messageAnalyserService)
+        public HubService(IMessageAnalyserService messageAnalyserService, ICommandPublisher commandPublisher)
         {
             _messageAnalyserService = messageAnalyserService;
+            _commandPublisher = commandPublisher;
         }
 
         public async Task SendMessage(string user, string message)
@@ -26,6 +27,7 @@ namespace Jobsity.StockChat.WebApi.Hubs
         public async Task ReceiveMessageFromClient(string message)
         {
             var commands = _messageAnalyserService.GetCommands(message);
+            await _commandPublisher.PublishCommands(commands);
 
             await SendMessageToClient(Context.UserIdentifier, message);
         }

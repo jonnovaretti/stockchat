@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Jobsity.StockChat.Workers
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -20,8 +20,9 @@ namespace Jobsity.StockChat.Workers
                     services.AddServices();
                     services.AddSettings(context.Configuration);
                     services.AddMassTransit(context.Configuration);
-
-                    services.AddHostedService<StockCommandConsumer>();
+                    
+                    services.AddMassTransitHostedService();
+                    services.AddHostedService<ConsumerBase>();
                 });
     }
 }

@@ -16,6 +16,7 @@ namespace Jobsity.StockChat.Application.Infrastructure.MessageBroker
         }
 
         public async Task Publish<T>(T message, string queue)
+             where T : class
         {
             var bus = _busFactory.Create();
             var address = new Uri($"{_messageBrokerSetting.Protocol}{ _messageBrokerSetting.Host }{_messageBrokerSetting.Vhost}{queue}");
