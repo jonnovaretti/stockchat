@@ -37,6 +37,7 @@ namespace Jobsity.StockChat.Workers.Extensions
 
             services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
             services.AddSingleton<IPublisher, Publisher>();
+            services.AddSingleton<IMessageBrokerSetting>(messageBrokerSetting);
 
             services.AddMassTransit(bus =>
             {
