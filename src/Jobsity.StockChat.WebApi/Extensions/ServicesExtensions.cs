@@ -1,4 +1,5 @@
-﻿using Jobsity.StockChat.Application.Infrastructure.Repositories;
+﻿using Jobsity.StockChat.Application.Constants;
+using Jobsity.StockChat.Application.Infrastructure.Repositories;
 using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.Application.Settings;
 using Jobsity.StockChat.WebApi.Hubs;
@@ -22,7 +23,7 @@ namespace Jobsity.StockChat.WebApi.Extensions
 
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var authSettings = configuration.GetSection("Authentication").Get<AuthSetting>();
+            var authSettings = configuration.GetSection(SettingSections.Authentication).Get<AuthSetting>();
             var key = Encoding.ASCII.GetBytes(authSettings.Secret);
 
             services.AddSingleton<IAuthSetting>(authSettings);

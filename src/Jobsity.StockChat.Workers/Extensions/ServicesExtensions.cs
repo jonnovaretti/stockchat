@@ -1,4 +1,5 @@
-﻿using Jobsity.StockChat.Application.Infrastructure.MessageBroker;
+﻿using Jobsity.StockChat.Application.Constants;
+using Jobsity.StockChat.Application.Infrastructure.MessageBroker;
 using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.Application.Settings;
 using Jobsity.StockChat.Workers.Consumers;
@@ -22,7 +23,7 @@ namespace Jobsity.StockChat.Workers.Extensions
         public static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)
         {
             IStooqSetting stooqSetting = new StooqSetting();
-            configuration.GetSection("StooqSettings").Bind(stooqSetting);
+            configuration.GetSection(SettingSections.SqootSetting).Bind(stooqSetting);
 
             services.AddSingleton(stooqSetting);
 
@@ -32,7 +33,7 @@ namespace Jobsity.StockChat.Workers.Extensions
         public static IServiceCollection AddMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             var messageBrokerSetting = new MessageBrokerSetting();
-            configuration.GetSection("QueueSettings").Bind(messageBrokerSetting);
+            configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
 
             services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
             services.AddSingleton<IPublisher, Publisher>();
