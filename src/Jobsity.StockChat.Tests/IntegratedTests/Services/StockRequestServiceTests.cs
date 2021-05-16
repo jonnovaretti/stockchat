@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Jobsity.StockChat.Application.Constants;
 using Jobsity.StockChat.Application.Services;
+using Jobsity.StockChat.Application.Settings;
 using NSubstitute;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -17,8 +18,8 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory.CreateClient().Returns(new HttpClient());
 
-            _stockRequestService = new StockRequestService(httpClientFactory);
-        }
+            _stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
+            }
 
         [Fact]
         public async Task Given_Valid_Symbol_When_Request_Get_Then_Return_StockQuote_Correctly()
