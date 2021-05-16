@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Jobsity.StockChat.Application\Jobsity.StockChat.Application.csproj" />
     <ProjectReference Include="..\Jobsity.StockChat.WebApi\Jobsity.StockChat.WebApi.csproj" />
+    <ProjectReference Include="..\Jobsity.StockChat.Workers\Jobsity.StockChat.Workers.csproj" />
   </ItemGroup>
 
 </Project>

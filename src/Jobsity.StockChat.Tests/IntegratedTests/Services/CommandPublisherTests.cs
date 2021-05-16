@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Jobsity.StockChat.Application.Constants;
 using Jobsity.StockChat.Application.Infrastructure.MessageBroker;
 using Jobsity.StockChat.Application.Models;
 using Jobsity.StockChat.Application.Services;
@@ -14,18 +15,17 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
     public class CommandPublisherTests
     {
         private readonly ICommandPublisher _commandPublisher;
-        private readonly IPublisher _publisher;
-        private readonly IBusFactory _busFactory;
-        private readonly RabbitMqFixture _rabbitMqFixture;
+        private readonly RabbitMqFixture<CommandMessage> _rabbitMqFixture;
 
         public CommandPublisherTests()
         {
             var messageBrokerSetting = new MessageBrokerSetting() { Protocol = "rabbitmq://", Host = "localhost", Vhost = "/", Username = "guest", Password = "guest" };
 
-            _busFactory = new BusFactory(messageBrokerSetting);
-            _publisher = new Publisher(_busFactory, messageBrokerSetting);
-            _commandPublisher = new CommandPublisher(_publisher);
-            _rabbitMqFixture = new RabbitMqFixture(_busFactory.Create());
+            var busFactory = new BusFactory(messageBrokerSetting);
+            var publisher = new Publisher(busFactory, messageBrokerSetting);
+
+            _commandPublisher = new CommandPublisher(publisher);
+            _rabbitMqFixture = new RabbitMqFixture<CommandMessage>(busFactory.Create(), QueueNames.RequestStockQuote);
         }
 
         [Fact]
