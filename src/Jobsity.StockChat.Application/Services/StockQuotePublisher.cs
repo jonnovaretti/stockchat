@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.Application.Services
 {
-    public class StockQuotePublisher
+    public class StockQuotePublisher : IStockQuotePublisher
     {
         private readonly IPublisher _publisher;
 

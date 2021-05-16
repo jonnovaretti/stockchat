@@ -1,3 +1,6 @@
+using Jobsity.StockChat.Workers.Consumers;
+using Jobsity.StockChat.Workers.Extensions;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,9 +15,13 @@ namespace Jobsity.StockChat.Workers
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureServices((context, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    services.AddServices();
+                    services.AddSettings(context.Configuration);
+                    services.AddMassTransit(context.Configuration);
+
+                    services.AddHostedService<StockCommandConsumer>();
                 });
     }
 }

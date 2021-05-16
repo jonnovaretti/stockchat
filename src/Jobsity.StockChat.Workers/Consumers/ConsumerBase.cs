@@ -1,16 +1,16 @@
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Jobsity.StockChat.Workers
+namespace Jobsity.StockChat.Workers.Consumers
 {
-    public class Worker : BackgroundService
+    public class ConsumerBase : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<ConsumerBase> _logger;
 
-        public Worker(ILogger<Worker> logger)
+        public ConsumerBase(ILogger<ConsumerBase> logger)
         {
             _logger = logger;
         }
