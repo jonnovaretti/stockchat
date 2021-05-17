@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.Workers.Consumers
 {
-    public class StockCommandConsumer : IConsumer<CommandMessage>
+    public class RequestStockQuoteConsumer : IConsumer<CommandMessage>
     {
         private readonly IStockRequestService _stockRequestService;
         private readonly IStockQuotePublisher _stockQuotePublisher;
 
-        public StockCommandConsumer(IStockRequestService stockRequestService, IStockQuotePublisher stockQuotePublisher)
+        public RequestStockQuoteConsumer(IStockRequestService stockRequestService, IStockQuotePublisher stockQuotePublisher)
         {
             _stockRequestService = stockRequestService;
             _stockQuotePublisher = stockQuotePublisher;

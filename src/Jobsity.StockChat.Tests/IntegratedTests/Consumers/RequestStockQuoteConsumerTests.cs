@@ -16,13 +16,13 @@ using Xunit;
 namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
 {
     [Trait("Integrated tests", "Consumers")]
-    public class StockCommandConsumerTests
+    public class RequestStockQuoteConsumerTests
     {
-        private readonly StockCommandConsumer _stockCommandConsumer;
+        private readonly RequestStockQuoteConsumer _requestStockQuoteConsumer;
         private readonly RabbitMqFixture<StockQuote> _rabbitMqFixture;
         private readonly IPublisher _publisher;
 
-        public StockCommandConsumerTests()
+        public RequestStockQuoteConsumerTests()
         {
             IStockRequestService stockRequestService;
 
@@ -37,7 +37,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
             _rabbitMqFixture = new RabbitMqFixture<StockQuote>(busFactory.Create(), QueueNames.ResponseStockQuote);
 
             stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
-            _stockCommandConsumer = new StockCommandConsumer(stockRequestService, new StockQuotePublisher(_publisher));
+            _requestStockQuoteConsumer = new RequestStockQuoteConsumer(stockRequestService, new StockQuotePublisher(_publisher));
         }
 
         [Fact(DisplayName ="Given a valid symbol when published on message broker then request stock quote and publish")]
@@ -50,7 +50,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
             consumeContext.Message.Returns(new CommandMessage() { Command = symbol });
 
             //Act
-            await _stockCommandConsumer.Consume(consumeContext);
+            await _requestStockQuoteConsumer.Consume(consumeContext);
 
             //Assert
             _rabbitMqFixture.Received.Select<StockQuote>().Any();

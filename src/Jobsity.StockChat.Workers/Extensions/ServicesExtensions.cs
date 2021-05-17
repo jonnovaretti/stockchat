@@ -58,7 +58,7 @@ namespace Jobsity.StockChat.Workers.Extensions
                     {
                         x.Consumer(() =>
                         {
-                            return new StockCommandConsumer(serviceProvider.GetService<IStockRequestService>(), serviceProvider.GetService<IStockQuotePublisher>());
+                            return new RequestStockQuoteConsumer(serviceProvider.GetService<IStockRequestService>(), serviceProvider.GetService<IStockQuotePublisher>());
                         });
                     });
                 });
