@@ -11,29 +11,58 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.Tasks;
+using MassTransit;
+using Jobsity.StockChat.WebApi.Consumers;
 
 namespace Jobsity.StockChat.WebApi.Extensions
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddSingleton<IMessageAnalyserService, MessageAnalyserService>();
-            services.AddSingleton<ICommandPublisher, CommandPublisher>();
+        private static readonly ResponseStockQuoteConsumer consumer = new ResponseStockQuoteConsumer();
 
-            return services;
-        }
-
-        public static IServiceCollection AddMassTransit(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             var messageBrokerSetting = new MessageBrokerSetting();
             configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
 
-            services.AddSingleton<IBusFactory, BusFactory>();
-            services.AddSingleton<IPublisher, Publisher>();
             services.AddSingleton<IMessageBrokerSetting>(messageBrokerSetting);
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddSingleton<IMessageAnalyserService, MessageAnalyserService>();
+            services.AddSingleton<ICommandPublisher, CommandPublisher>();
+            services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
+            services.AddSingleton<IPublisher, Publisher>();
+            services.AddSingleton<IConsumerObservable>(consumer);
+
+            return services;
+        }
+
+        public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration configuration)
+        {
+            var messageBrokerSetting = new MessageBrokerSetting();
+            configuration.GetSection(SettingSections.MessageBrokerSetting).Bind(messageBrokerSetting);
+
+            services.AddMassTransit(bus =>
+            {
+                bus.UsingRabbitMq((ctx, busConfigurator) =>
+                {
+                    busConfigurator.Host(messageBrokerSetting.Host, messageBrokerSetting.Vhost, acc =>
+                    {
+                        acc.Username(messageBrokerSetting.Username);
+                        acc.Password(messageBrokerSetting.Password);
+                    });
+
+                    busConfigurator.ReceiveEndpoint(QueueNames.ResponseStockQuote, x =>
+                    {
+                        x.Consumer(() =>
+                        {
+                            return consumer;
+                        });
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
 
             return services;
         }

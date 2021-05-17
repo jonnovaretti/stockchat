@@ -17,6 +17,7 @@ namespace Jobsity.StockChat.Workers.Extensions
             services.AddSingleton<IStockQuotePublisher, StockQuotePublisher>();
             services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
             services.AddSingleton<IPublisher, Publisher>();
+            
             services.AddHttpClient();
 
             return services;

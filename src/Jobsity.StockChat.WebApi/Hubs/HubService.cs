@@ -1,4 +1,5 @@
 ﻿using Jobsity.StockChat.Application.Services;
+using Jobsity.StockChat.WebApi.Consumers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -7,21 +8,29 @@ using System.Threading.Tasks;
 namespace Jobsity.StockChat.WebApi.Hubs
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class HubService : Hub
+    public class HubService : Hub, IConsumerObserver
     {
         private const string ClientMethodName = "receiveMessageFromServer";
         private readonly IMessageAnalyserService _messageAnalyserService;
         private readonly ICommandPublisher _commandPublisher;
+        private readonly IConsumerObservable _consumerObservable;
 
-        public HubService(IMessageAnalyserService messageAnalyserService, ICommandPublisher commandPublisher)
+        public HubService(IMessageAnalyserService messageAnalyserService, ICommandPublisher commandPublisher, IConsumerObservable consumerObservable)
         {
             _messageAnalyserService = messageAnalyserService;
             _commandPublisher = commandPublisher;
+            _consumerObservable = consumerObservable;
         }
 
-        public async Task SendMessage(string user, string message)
+        public override async Task OnConnectedAsync()
         {
-            await SendMessageToClient(user, message);
+            _consumerObservable.Attach(Clients);
+            await Task.CompletedTask;
+        }
+
+        public async Task Update(string message)
+        {
+            await SendMessageToClient("robot", message);
         }
 
         public async Task ReceiveMessageFromClient(string message)

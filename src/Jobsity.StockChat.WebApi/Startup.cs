@@ -20,8 +20,8 @@ namespace Jobsity.StockChat.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddServices();
-            services.AddMassTransit(Configuration);
+            services.AddServices(Configuration);
+            services.AddMessageBroker(Configuration);
             services.AddAuthentication(Configuration);
             services.AddSignalR();
         }
