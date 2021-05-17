@@ -11,14 +11,14 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
     [Trait("Integrated tests", "Services")]
     public class StockRequestServiceTests
     {
-        private readonly IStockRequestService _stockRequestService;
+        private readonly IStockRequester _stockRequest;
 
         public StockRequestServiceTests()
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory.CreateClient().Returns(new HttpClient());
 
-            _stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
+            _stockRequest = new StockRequester(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
         }
 
         [Fact(DisplayName = "Given valid_symbol_when_request_get_quote then return stockquote_correctly")]
@@ -28,7 +28,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             var symbol = "tsla.us";
 
             //Act
-            var stockQuote = await _stockRequestService.Request(symbol);
+            var stockQuote = await _stockRequest.Request(symbol);
 
             //Assert
             stockQuote.Should().NotBeNull();
@@ -42,7 +42,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             var symbol = "tststs.us";
 
             //Act
-            var stockQuote = await _stockRequestService.Request(symbol);
+            var stockQuote = await _stockRequest.Request(symbol);
 
             //Assert
             stockQuote.Should().NotBeNull();

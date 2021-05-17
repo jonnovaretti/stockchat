@@ -7,12 +7,12 @@ namespace Jobsity.StockChat.Workers.Consumers
 {
     public class RequestStockQuoteConsumer : IConsumer<CommandMessage>
     {
-        private readonly IStockRequestService _stockRequestService;
+        private readonly IStockRequester _stockRequester;
         private readonly IStockQuotePublisher _stockQuotePublisher;
 
-        public RequestStockQuoteConsumer(IStockRequestService stockRequestService, IStockQuotePublisher stockQuotePublisher)
+        public RequestStockQuoteConsumer(IStockRequester stockRequester, IStockQuotePublisher stockQuotePublisher)
         {
-            _stockRequestService = stockRequestService;
+            _stockRequester = stockRequester;
             _stockQuotePublisher = stockQuotePublisher;
         }
 
@@ -21,7 +21,7 @@ namespace Jobsity.StockChat.Workers.Consumers
             var message = context.Message;
 
             var symbol = message.Command[(message.Command.IndexOf('=') + 1)..];
-            var stockQuote = await _stockRequestService.Request(symbol);
+            var stockQuote = await _stockRequester.Request(symbol);
 
             await _stockQuotePublisher.PublishStockQuote(stockQuote);
         }

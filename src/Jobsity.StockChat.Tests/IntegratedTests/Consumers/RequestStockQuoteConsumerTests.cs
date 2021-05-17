@@ -24,7 +24,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
 
         public RequestStockQuoteConsumerTests()
         {
-            IStockRequestService stockRequestService;
+            IStockRequester stockRequest;
 
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory.CreateClient().Returns(new HttpClient());
@@ -36,8 +36,8 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Consumers
 
             _rabbitMqFixture = new RabbitMqFixture<StockQuote>(busFactory.Create(), QueueNames.ResponseStockQuote);
 
-            stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
-            _requestStockQuoteConsumer = new RequestStockQuoteConsumer(stockRequestService, new StockQuotePublisher(_publisher));
+            stockRequest = new StockRequester(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
+            _requestStockQuoteConsumer = new RequestStockQuoteConsumer(stockRequest, new StockQuotePublisher(_publisher));
         }
 
         [Fact(DisplayName ="Given a valid symbol when published on message broker then request stock quote and publish")]

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.Application.Services
 {
-    public interface IStockRequestService
+    public interface IStockRequester
     {
         Task<StockQuote> Request(string symbol);
     }

@@ -13,7 +13,7 @@ namespace Jobsity.StockChat.Workers.Extensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddSingleton<IStockRequestService, StockRequestService>();
+            services.AddSingleton<IStockRequester, StockRequester>();
             services.AddSingleton<IStockQuotePublisher, StockQuotePublisher>();
             services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
             services.AddSingleton<IPublisher, Publisher>();
@@ -58,7 +58,7 @@ namespace Jobsity.StockChat.Workers.Extensions
                     {
                         x.Consumer(() =>
                         {
-                            return new RequestStockQuoteConsumer(serviceProvider.GetService<IStockRequestService>(), serviceProvider.GetService<IStockQuotePublisher>());
+                            return new RequestStockQuoteConsumer(serviceProvider.GetService<IStockRequester>(), serviceProvider.GetService<IStockQuotePublisher>());
                         });
                     });
                 });

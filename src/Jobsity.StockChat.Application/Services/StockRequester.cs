@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.Application.Services
 {
-    public class StockRequestService : IStockRequestService
+    public class StockRequester : IStockRequester
     {
         private readonly HttpClient _httpClient;
         private readonly IStooqSetting _stooqSetting;
 
-        public StockRequestService(IHttpClientFactory httpClientFactory, IStooqSetting stooqSetting)
+        public StockRequester(IHttpClientFactory httpClientFactory, IStooqSetting stooqSetting)
         {
             _httpClient = httpClientFactory.CreateClient();
             _stooqSetting = stooqSetting;
