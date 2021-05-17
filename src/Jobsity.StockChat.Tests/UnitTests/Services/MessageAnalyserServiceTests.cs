@@ -7,11 +7,11 @@ namespace Jobsity.StockChat.Tests.UnitTests.Services
     [Trait("Unit tests", "Services")]
     public class MessageAnalyserServiceTests
     {
-        private readonly IMessageAnalyserService _messageAnalyserService;
+        private readonly IMessageAnalyser _messageAnalyser;
 
         public MessageAnalyserServiceTests()
         {
-            _messageAnalyserService = new MessageAnalyserService();
+            _messageAnalyser = new MessageAnalyser();
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace Jobsity.StockChat.Tests.UnitTests.Services
             var message = "Hello, I want to know how much is /stock=aapl.us";
 
             //Act
-            var commands = _messageAnalyserService.GetCommands(message);
+            var commands = _messageAnalyser.GetCommands(message);
 
             //Assert
             commands.Should().HaveCount(1);
@@ -34,7 +34,7 @@ namespace Jobsity.StockChat.Tests.UnitTests.Services
             var message = "Hello, I want to know how much are /stock=aapl.us and /stock=tsla.us";
 
             //Act
-            var commands = _messageAnalyserService.GetCommands(message);
+            var commands = _messageAnalyser.GetCommands(message);
 
             //Assert
             commands.Should().HaveCount(2);
@@ -47,7 +47,7 @@ namespace Jobsity.StockChat.Tests.UnitTests.Services
             var message = "Hello, I want to know how much is /stock=";
 
             //Act
-            var commands = _messageAnalyserService.GetCommands(message);
+            var commands = _messageAnalyser.GetCommands(message);
 
             //Assert
             commands.Should().HaveCount(0);

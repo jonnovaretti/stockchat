@@ -28,7 +28,7 @@ namespace Jobsity.StockChat.WebApi.Extensions
             services.AddSingleton<IMessageBrokerSetting>(messageBrokerSetting);
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddSingleton<IMessageAnalyserService, MessageAnalyserService>();
+            services.AddSingleton<IMessageAnalyser, MessageAnalyser>();
             services.AddSingleton<ICommandPublisher, CommandPublisher>();
             services.AddSingleton<Application.Infrastructure.MessageBroker.IBusFactory, BusFactory>();
             services.AddSingleton<IPublisher, Publisher>();

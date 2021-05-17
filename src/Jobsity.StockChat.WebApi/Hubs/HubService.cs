@@ -11,14 +11,14 @@ namespace Jobsity.StockChat.WebApi.Hubs
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class HubService : Hub, IConsumerObserver
     {
-        private readonly IMessageAnalyserService _messageAnalyserService;
+        private readonly IMessageAnalyser _messageAnalyser;
         private readonly ICommandPublisher _commandPublisher;
         private readonly IConsumerObservable _consumerObservable;
         private IHubCallerClients _clients;
 
-        public HubService(IMessageAnalyserService messageAnalyserService, ICommandPublisher commandPublisher, IConsumerObservable consumerObservable)
+        public HubService(IMessageAnalyser messageAnalyser, ICommandPublisher commandPublisher, IConsumerObservable consumerObservable)
         {
-            _messageAnalyserService = messageAnalyserService;
+            _messageAnalyser = messageAnalyser;
             _commandPublisher = commandPublisher;
             _consumerObservable = consumerObservable;
         }
@@ -37,7 +37,7 @@ namespace Jobsity.StockChat.WebApi.Hubs
 
         public async Task ReceiveMessageFromClient(string message)
         {
-            var commands = _messageAnalyserService.GetCommands(message);
+            var commands = _messageAnalyser.GetCommands(message);
             await _commandPublisher.PublishCommands(commands);
 
             await Clients.All.SendAsync(ClientMethods.ClientMethodName, Context.UserIdentifier, message);

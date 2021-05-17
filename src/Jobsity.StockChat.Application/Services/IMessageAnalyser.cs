@@ -2,7 +2,7 @@
 
 namespace Jobsity.StockChat.Application.Services
 {
-    public interface IMessageAnalyserService
+    public interface IMessageAnalyser
     {
         IEnumerable<string>  GetCommands(string message);
     }

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Jobsity.StockChat.Application.Services
 {
-    public class MessageAnalyserService : IMessageAnalyserService
+    public class MessageAnalyser : IMessageAnalyser
     {
         public IEnumerable<string> GetCommands(string message)
         {
