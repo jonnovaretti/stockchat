@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
 
 namespace Jobsity.StockChat.WebApi
 {
@@ -21,7 +20,8 @@ namespace Jobsity.StockChat.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddServices();
+            services.AddServices(Configuration);
+            services.AddMessageBroker(Configuration);
             services.AddAuthentication(Configuration);
             services.AddSignalR();
         }

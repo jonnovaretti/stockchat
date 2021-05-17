@@ -5,32 +5,36 @@
     <title></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
     <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/chat", { accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikpob24iLCJyb2xlIjoidXNlciIsIm5iZiI6MTYyMTEyNjc5OCwiZXhwIjoxNjIxMTMzOTk4LCJpYXQiOjE2MjExMjY3OTh9.kkazeHbMwTZAdnHp4CBr9Lz3i6vuWpAwxShUnuwUgBE" })
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
+        var connection;
 
-        async function start() {
-            try {
-                await connection.start();
-                console.log("websocket connected");
-            } catch (err) {
-                console.log(err);
-                setTimeout(start, 5000);
-            }
-        };
+        function hubConnection(token) {
 
-        connection.onclose(start);
-        start();
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("/chat", { accessTokenFactory: () => token })
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
 
-        connection.on("receiveMessageFromServer", (user, message) => {
-            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            var encodedMsg = user + " says " + msg;
-            var li = document.createElement("li");
-            li.textContent = encodedMsg;
-            document.getElementById("messagesList").appendChild(li);
-        });
+            async function start() {
+                try {
+                    await connection.start();
+                    console.log("websocket connected");
+                } catch (err) {
+                    console.log(err);
+                    setTimeout(start, 5000);
+                }
+            };
 
+            connection.onclose(start);
+            start();
+
+            connection.on("receiveMessageFromServer", (user, message) => {
+                var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                var encodedMsg = user + " says " + msg;
+                var li = document.createElement("li");
+                li.textContent = encodedMsg;
+                document.getElementById("messagesList").appendChild(li);
+            });
+        }
     </script>
     <script>
         function sendMessage() {
@@ -41,9 +45,43 @@
                 console.error(err);
             }
         }
+
+        function post() {
+
+            fetch("api/v1/login", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: document.getElementById("username").value,
+                    password: document.getElementById("password").value
+                })
+            }).then(response => response.json())
+                .then(data => {
+                    hubConnection(data.data.token);
+                })
+                .catch(console.error);
+        }
     </script>
 </head>
 <body>
+    <div>
+        <table>
+            <tr>
+                <td>username</td>
+                <td><input type="text" id="username" /></td>
+                <td>password</td>
+                <td><input type="password" id="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <button id="signinbutton" onclick="post()">Sign in</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
     <div>
         <textarea cols="50" rows="5" id="message"></textarea>
         <br />
