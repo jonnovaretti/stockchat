@@ -1,4 +1,5 @@
-﻿using Jobsity.StockChat.Application.Services;
+﻿using Jobsity.StockChat.Application.Constants;
+using Jobsity.StockChat.Application.Services;
 using Jobsity.StockChat.WebApi.Consumers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,10 +11,10 @@ namespace Jobsity.StockChat.WebApi.Hubs
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class HubService : Hub, IConsumerObserver
     {
-        private const string ClientMethodName = "receiveMessageFromServer";
         private readonly IMessageAnalyserService _messageAnalyserService;
         private readonly ICommandPublisher _commandPublisher;
         private readonly IConsumerObservable _consumerObservable;
+        private IHubCallerClients _clients;
 
         public HubService(IMessageAnalyserService messageAnalyserService, ICommandPublisher commandPublisher, IConsumerObservable consumerObservable)
         {
@@ -24,13 +25,14 @@ namespace Jobsity.StockChat.WebApi.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            _consumerObservable.Attach(Clients);
+            _clients = Clients;
+            _consumerObservable.Attach(this);
             await Task.CompletedTask;
         }
 
         public async Task Update(string message)
         {
-            await SendMessageToClient("robot", message);
+            await _clients.All.SendAsync(ClientMethods.ClientMethodName, "robot", message);
         }
 
         public async Task ReceiveMessageFromClient(string message)
@@ -38,12 +40,7 @@ namespace Jobsity.StockChat.WebApi.Hubs
             var commands = _messageAnalyserService.GetCommands(message);
             await _commandPublisher.PublishCommands(commands);
 
-            await SendMessageToClient(Context.UserIdentifier, message);
-        }
-
-        private async Task SendMessageToClient(string user, string message)
-        {
-            await Clients.All.SendAsync(ClientMethodName, user, message);
+            await Clients.All.SendAsync(ClientMethods.ClientMethodName, Context.UserIdentifier, message);
         }
     }
 }

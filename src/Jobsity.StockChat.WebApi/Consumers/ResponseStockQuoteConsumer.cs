@@ -1,14 +1,12 @@
 ﻿using Jobsity.StockChat.Application.Models;
 using MassTransit;
-using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace Jobsity.StockChat.WebApi.Consumers
 {
     public class ResponseStockQuoteConsumer : IConsumer<StockQuote>, IConsumerObservable
     {
-        private IHubCallerClients _clients;
-        private const string ClientMethodName = "receiveMessageFromServer";
+        private IConsumerObserver _consumerObserver;
 
         public async Task Consume(ConsumeContext<StockQuote> context)
         {
@@ -17,12 +15,12 @@ namespace Jobsity.StockChat.WebApi.Consumers
 
         public async Task Notify(string message)
         {
-            await _clients.All.SendAsync(ClientMethodName, "robot", message);
+            await _consumerObserver.Update(message);
         }
 
-        public void Attach(IHubCallerClients observer)
+        public void Attach(IConsumerObserver observer)
         {
-            _clients = observer;
+            _consumerObserver = observer;
         }
     }
 }
