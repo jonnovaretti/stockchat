@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Jobsity.StockChat.Tests.IntegratedTests.Services
 {
+    [Trait("Integrated tests", "Services")]
     public class StockRequestServiceTests
     {
         private readonly IStockRequestService _stockRequestService;
@@ -20,7 +21,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             _stockRequestService = new StockRequestService(httpClientFactory, new StooqSetting() { Url = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv&s=" });
         }
 
-        [Fact]
+        [Fact(DisplayName = "Given valid_symbol_when_request_get_quote then return stockquote_correctly")]
         public async Task Given_Valid_Symbol_When_Request_Get_Then_Return_StockQuote_Correctly()
         {
             //Arrange
@@ -34,8 +35,8 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             stockQuote.Symbol.Should().Be(symbol.ToUpper());
         }
 
-        [Fact]
-        public async Task Given_Invalid_Symbol_When_Request_Get_Then_Return_StockQuote_Invalid()
+        [Fact(DisplayName = "Given an invalid symbol when request get quote then return invalid stock quote")]
+        public async Task Given_Invalid_Symbol_When_Request_Get_Then_Return_Invalid_StockQuote()
         {
             //Arrange
             var symbol = "tststs.us";

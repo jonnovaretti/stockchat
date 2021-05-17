@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Jobsity.StockChat.Tests.IntegratedTests.Services
 {
+    [Trait("Integrated tests", "Services")]
     public class CommandPublisherTests
     {
         private readonly ICommandPublisher _commandPublisher;
@@ -28,7 +29,7 @@ namespace Jobsity.StockChat.Tests.IntegratedTests.Services
             _rabbitMqFixture = new RabbitMqFixture<CommandMessage>(busFactory.Create(), QueueNames.RequestStockQuote);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Given a valid command when publish on queue, then message should be published")]
         public async Task Given_Command_When_Publish_Queue_Then_Message_Should_Be_Pusblished()
         {
             //Arrange
